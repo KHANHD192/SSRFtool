@@ -165,6 +165,6 @@ if __name__ == "__main__" :
          exit()
     if(len(module) == 1 and module[0] == 'scan') : 
          print("THE MODULE BEING USED IS " + colored("SCAN",'green'))
+         attack_readfile()
          attack_scan()
-         exit()
         
