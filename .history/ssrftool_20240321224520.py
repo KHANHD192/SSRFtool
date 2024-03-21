@@ -11,7 +11,7 @@ from PyPDF2 import PdfReader
 results={}
 
 def printBanner() :
-    os.system('clear')
+    os.system('cls')
     print(colored(r"""
 :'######:::'######::'########::'########:'########::'#######:::'#######::'##:::::::
 '##... ##:'##... ##: ##.... ##: ##.....::... ##..::'##.... ##:'##.... ##: ##:::::::
@@ -134,7 +134,6 @@ def attack_scan() :
             thread = threading.Thread(target=doRequest_scan,args=(requester,parameter,ip))
             threads.append(thread)
             thread.start()
-            
    for thread in threads :
             thread.join()
    

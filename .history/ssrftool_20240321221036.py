@@ -11,7 +11,7 @@ from PyPDF2 import PdfReader
 results={}
 
 def printBanner() :
-    os.system('clear')
+    os.system('cls')
     print(colored(r"""
 :'######:::'######::'########::'########:'########::'#######:::'#######::'##:::::::
 '##... ##:'##... ##: ##.... ##: ##.....::... ##..::'##.... ##:'##.... ##: ##:::::::
@@ -133,13 +133,11 @@ def attack_scan() :
    for ip in ip_list : 
             thread = threading.Thread(target=doRequest_scan,args=(requester,parameter,ip))
             threads.append(thread)
-            thread.start()
-            
    for thread in threads :
+            thread.start()
             thread.join()
    
-   for key in results.keys() :
-          print("\n"+colored("Found {ip}".format(ip=key),'yellow')+"\n")
+   print(results)
 
 
     
@@ -164,5 +162,5 @@ if __name__ == "__main__" :
          attack_readfile()
          exit()
     if(len(module) == 1 and module[0] == 'scan') : 
-         attack_scan()
-        
+       
+        print(iplist)

